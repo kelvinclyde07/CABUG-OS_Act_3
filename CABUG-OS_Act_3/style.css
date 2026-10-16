@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   BASE / TYPOGRAPHY
+   Type selectors + a grouping selector (h1, h2)
+   ========================================================= */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;       
+  color: #2c3e50;           
+  background-color: rgb(245, 245, 245);
+  line-height: 1.5em;      
+}
+
+h1,
+h2 {
+  font-weight: 700;
+  color: navy;          
+}
+
+h1 {
+  color: navy;
+}
+
+header h1 {
+  color: #2c3e50;
+}
+/* Cascade winner: "header h1" wins over the plain "h1" rule above.
+   Both rules come from author CSS with normal (non-!important)
+   declarations, so the tie-breaker is specificity, not source order.
+   "h1" is one type selector -> specificity (0,0,0,1).
+   "header h1" is two type selectors -> specificity (0,0,0,2).
+   (0,0,0,2) beats (0,0,0,1), so the <h1> inside <header> renders
+   in #2c3e50, not navy, no matter which rule was written first. */
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+header,
+footer {
+  text-align: center;       
+  padding: 1em 0;
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+footer {
+  margin-top: 2rem;
+}
+
+main {
+  max-width: 90%;            
+  margin: 0 auto;
+}
+
+/* =========================================================
+   COMPONENTS (class, ID, descendant & child combinators)
+   ========================================================= */
+
+/* Class selectors */
+.card {
+  width: 500px;              
+  padding: 20px;
+  border: 2px solid #2c3e50;  
+  border-radius: 10px;
+  background-color: rgba(44, 62, 80, 0.05);
+  margin: 0 auto 24px auto;
+}
+
+.intro {
+  font-weight: 600;
+  text-align: left;
+}
+
+.intro::first-letter {
+  font-size: 1.4em;
+  color: navy;
+}
+
+.card p {
+  color: #333333;
+  margin-bottom: 8px;
+}
+
+
+#about {
+  border-color: #c0392b;
+  position: relative;         
+}
+
+#about::after {
+  content: "NEW";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #c0392b;
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* =========================================================
+   NAVIGATION (display, pseudo-class)
+   ========================================================= */
+
+nav a {
+  display: inline-block;
+  padding: 6px 14px;
+  margin: 0 4px;
+  background-color: #34495e;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background-color: #1abc9c;
+  color: #ffffff;
+}
+
+/* =========================================================
+   SKILLS LIST (flexbox, child combinator)
+   ========================================================= */
+
+.skills-list {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  list-style: none;
+}
+
+.skills-list > li {
+  background-color: #1abc9c;
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+/* =========================================================
+   DISPLAY vs VISIBILITY
+   ========================================================= */
+
+.hide-none {
+  display: none;
+}
+
+.hide-visibility {
+  visibility: hidden;
+}
+/* Visible difference on the page: the .hide-none paragraph disappears
+   completely and the paragraphs below it move up to fill the gap,
+   while .hide-visibility leaves an empty blank line in its place
+   because the browser still lays out its box, it just doesn't paint it. */
+
+/* =========================================================
+   SCROLLABLE BOX
+   ========================================================= */
+
+.scroll-box {
+  height: 120px;
+  overflow: auto;
+}
+
+/* =========================================================
+   BOX MODEL NOTE (Part C checkbox)
+   ========================================================= */
+/* Total rendered width of one .card:
+   width: 500px, and * { box-sizing: border-box; } means padding and
+   border are included INSIDE that 500px instead of being added to it.
+   Rendered width = 500px (declared width only).
+   Calculation shown: 500px (width) already accounts for
+   20px + 20px (left/right padding) + 2px + 2px (left/right border),
+   so the content area shrinks to 500 - 40 - 4 = 456px, while the
+   box itself still measures exactly 500px on screen. */
+
+/* =========================================================
+   REFLECTION QUESTIONS
+   ========================================================= */
+
+/* 1. In Part A, "header h1" beat the plain "h1" rule because of
+      specificity, not because it was written second. "header h1" is
+      built from two type selectors, giving it specificity (0,0,0,2),
+      while "h1" alone is only (0,0,0,1). The browser always applies
+      the more specific rule when both are normal (non-!important)
+      author rules, regardless of which one appears later in the file.
+
+   2. If .card used box-sizing: content-box instead of border-box,
+      the declared width (500px) would apply to the content only, and
+      padding/border would be added on top:
+      500px (content) + 20px + 20px (left/right padding)
+      + 2px + 2px (left/right border) = 544px rendered width.
+
+   3. I'd choose visibility: hidden instead of display: none when the
+      element's empty space still needs to be preserved in the layout,
+      for example hiding one tab panel in a row of equal-width tabs, or
+      temporarily hiding a form error message without the surrounding
+      fields jumping up and down as it appears/disappears. display: none
+      is better when the element should be fu lly removed and the other
+      elements should collapse into its place, like removing a dismissed
+      notification banner. */
